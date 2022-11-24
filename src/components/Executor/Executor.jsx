@@ -13,6 +13,7 @@ const Executor = (props) => {
   const [searchText, setSearchText] = useState("");
   const [sourceJSON, setSourceJSON] = useState("Source JSON");
   const [targetJSON, setTargetJSON] = useState("Target JSON");
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Executor = (props) => {
     }
   };
 
-  const sourceJsonButtonHandler = () => {
+  const sourceJsonButtonHandler = async () => {
     if (!isJsonString(sourceJSON)) {
       toast.error("Please upload a valid JSON file!");
       return;
@@ -49,11 +50,26 @@ const Executor = (props) => {
       toast.info("Select a project to execute!");
       return;
     }
-    setTargetJSON(sourceJSON);
+    setLoading(true);
+    const res = await fetch("https://81ae-14-139-234-179.ngrok.io/execute", {
+      method: `POST`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        id: selectedProject,
+        input: JSON.stringify(sourceJSON),
+      }),
+    });
+    setLoading(false);
+    const data = await res.json();
+    setTargetJSON(data);
     toast.success("Conversion successful!");
   };
 
-  const sourceJsonTextChangeHandler = (e) => {
+  const sourceJsonTextChangeHandler = async (e) => {
     setSourceJSON(e.target.value);
   };
   useEffect(() => {
@@ -70,8 +86,9 @@ const Executor = (props) => {
           Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({ email: "ugoel911@gmail.com" }),
+        body: JSON.stringify({ email: location.state.email }),
       });
+      setLoading(false);
       const data = await res.json();
       setProjects(data);
       setUser(location.state.user);
@@ -85,53 +102,44 @@ const Executor = (props) => {
     <Row>
       <Col lg={4} xs={12}>
         <div className="projects">
-          <Form.Control
-            style={{ marginTop: "20px" }}
-            type="email"
-            placeholder="Search"
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          {projects.length > 0 ? (
-            projects
-              .filter((project) =>
-                project.name.toLowerCase().includes(searchText.toLowerCase())
-              )
-              .map((project) => (
-                <Card className="project">
-                  <Card.Header>{project.name}</Card.Header>
-                  <Card.Body>
-                    <Button
-                      variant={
-                        project._id === selectedProject._id ? "dark" : "primary"
-                      }
-                      onClick={() => setSelectedProject(project)}
-                    >
-                      Execute code
-                    </Button>
-                  </Card.Body>
-                </Card>
-              ))
+          {loading ? (
+            <div style={{ width: "100%", margin: "auto" }}>
+              <Circles
+                height="80"
+                width="80"
+                color="rgb(50, 222, 212)"
+                ariaLabel="circles-loading"
+                visible={loading}
+              />
+            </div>
+          ) : projects.length > 0 ? (
+            <Form.Select
+              onChange={(e) => setSelectedProject(e.target.value)}
+              aria-label="Default select example"
+            >
+              <option value="">Select project</option>
+              {projects
+                .filter((project, val) =>
+                  project.name.toLowerCase().includes(searchText.toLowerCase())
+                )
+                .map((project) => (
+                  <option value={project.id}>{project.name}</option>
+                ))}
+            </Form.Select>
           ) : (
             <>
-              <h1 style={{ color: "white" }}>No projects to show!</h1>
-              <div style={{ width: "100%", margin: "auto" }}>
-                <Circles
-                  height="80"
-                  width="80"
-                  color="rgb(50, 222, 212)"
-                  ariaLabel="circles-loading"
-                  visible={true}
-                />
-              </div>
+              <h1 style={{ color: "black" }}>No projects to show!</h1>
             </>
           )}
         </div>
       </Col>
       <Col xs={12} lg={4}>
         <div style={{ margin: "20px 10px" }}>
-          <h3 style={{ color: "white", margin: "25px 0" }}>
-            {selectedProject?.name?.length > 0
-              ? "Selected mapping: " + selectedProject.name
+          <h3 style={{ color: "black", margin: "25px 0" }}>
+            {selectedProject?.length > 0
+              ? "Selected mapping: " +
+                projects.filter((project) => project.id === selectedProject)[0]
+                  .name
               : "Select a Project to execute"}
           </h3>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
