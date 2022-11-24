@@ -26,14 +26,14 @@ const CustomNavbar = (props) => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav style={{ margin: "auto" }} className="me-auto">
-              <Nav.Link
-                className={classes.navText}
-                onClick={() => navigate("/generator")}
-              >
-                Generator
-              </Nav.Link>
               {props.user && (
                 <>
+                  <Nav.Link
+                    className={classes.navText}
+                    onClick={() => navigate("/generator")}
+                  >
+                    Generator
+                  </Nav.Link>
                   <Nav.Link
                     className={classes.navText}
                     onClick={() => navigate("/executor", { state: props.user })}

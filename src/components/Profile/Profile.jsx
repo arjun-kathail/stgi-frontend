@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import { useLocation } from "react-router-dom";
-import Project from "../Project/Project";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Profile.css";
 
 const Profile = () => {
@@ -10,23 +9,28 @@ const Profile = () => {
   const [projects, setProjects] = useState([]);
   const [searchText, setSearchText] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     setUser(location.state);
     setProjects([
       {
         projectName: "Project 1",
+        projectId: "1",
         projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
       },
       {
         projectName: "Project 2",
+        projectId: "2",
         projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
       },
       {
         projectName: "Project 3",
+        projectId: "3",
         projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
       },
       {
         projectName: "Project 4",
+        projectId: "4",
         projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
       },
     ]);
@@ -73,7 +77,24 @@ const Profile = () => {
                       .includes(searchText.toLowerCase())
                   )
                   .map((project) => (
-                    <Project project={project} />
+                    <Card className="project">
+                      <Card.Header>{project.projectName}</Card.Header>
+                      <Card.Body>
+                        <Card.Text>{project.projectDescription}</Card.Text>
+                        <Button
+                          onClick={() =>
+                            navigate("/executor", {
+                              state: {
+                                user: user,
+                                selectedProject: project,
+                              },
+                            })
+                          }
+                        >
+                          Execute code
+                        </Button>
+                      </Card.Body>
+                    </Card>
                   ))}
                 {projects.length === 0 && <h1>No projects to show!</h1>}
               </div>
