@@ -1,0 +1,27 @@
+.body {
+  display: flex;
+  background-color: #f8f8f8;
+  flex-direction: row;
+}
+
+.imageContainer {
+  margin: 15px;
+  margin-left: 30px;
+}
+
+.navLinks {
+  display: flex;
+  flex-direction: row;
+  margin-left: 50vw;
+  margin-top: 10px;
+}
+
+.navText {
+  margin: 0 45px;
+  font-family: "Roboto Mono";
+  cursor: pointer;
+}
+
+.loginButton {
+  margin-top: 12px;
+}
