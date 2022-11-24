@@ -1,18 +1,13 @@
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 const Nav = () => {
-  const [user, setUser] = useState();
-  useEffect(() => {
-    setUser({
-      displayName: "Arsh",
-      email: "arshk102001@gmail.com",
-    });
-  }, []);
+  const [user, setUser] = useState([]);
+  const navigate = useNavigate();
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -28,7 +23,7 @@ const Nav = () => {
                 variant="secondary"
               >
                 <img
-                  referrerpolicy="no-referrer"
+                  referrerPolicy="no-referrer"
                   src={
                     user.photoURL
                       ? user.photoURL
@@ -41,28 +36,20 @@ const Nav = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu variant="dark" className="dropdownMenu">
-                <Dropdown.Item className="weex" as={Link} to={"/profile"}>
+                <Dropdown.Item
+                  onClick={() => navigate("/profile", { state: user })}
+                >
                   Profile
                 </Dropdown.Item>
                 <Dropdown.Item className="logoutDropdown">
-                  <Button
-                    className="logoutButton"
-                    onClick={() => console.log("logout initiated")}
-                    buttonstyle="btn--outline"
-                  >
-                    Logout
-                  </Button>
+                  <GoogleLoginButton setUser={setUser} user={user} />
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
-            <Button
-              onClick={
-                user ? () => console.log("logout") : () => console.log("signin")
-              }
-            >
-              {user ? "Logout" : "Signup / Login"}
-            </Button>
+            <>
+              <GoogleLoginButton setUser={setUser} user={user} />
+            </>
           )}
         </Container>
       </Navbar>
