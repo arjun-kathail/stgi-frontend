@@ -1,7 +1,10 @@
 .body {
+  position: fixed;
+  width: 100vw;
   display: flex;
-  background-color: #f8f8f8;
   flex-direction: row;
+  background-image: linear-gradient(to right, rgb(0, 43, 220), rgb(50, 222, 212)) !important;
+  opacity: 0.9;
 }
 
 .imageContainer {
@@ -20,8 +23,6 @@
   margin: 0 45px;
   font-family: "Roboto Mono";
   cursor: pointer;
-}
-
-.loginButton {
-  margin-top: 12px;
+  color: #fff !important;
+  font-size: 1.2rem;
 }
