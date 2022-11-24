@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Profile from "./components/Profile/Profile";
+import CodeGenerator from "./components/CodeGenerator/CodeGenerator2";
 import { useState } from "react";
 import { Home } from "./components/Home";
 // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -18,6 +19,7 @@ function App() {
     <>
       <Route exact path="/profile" element={<Profile />} />
       <Route exact path="/executor" element={<Executor />} />
+      <Route exact path="/generator" element={<CodeGenerator />} />
     </>
   );
   return (
