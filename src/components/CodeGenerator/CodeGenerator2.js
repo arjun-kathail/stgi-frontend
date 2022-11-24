@@ -185,54 +185,47 @@ const CodeGenerator = () => {
                 <div className={"box"}>
                     <div className={"formStyle"}>
                         <Form className={"formItems"}>
+                                <Form.Control type="text" placeholder="Specification Name" value={name} onChange={nameChangeHandler} />
+                                <div className={"InputOutput"}>
 
-                            <Form.Control type="text" placeholder="Name" value={name} onChange={nameChangeHandler} />
-                            <br></br><br></br>
-                            <Form.Control type="text" placeholder="Email" value={email} onChange={emailChangeHandler} />
-                            <br></br><br></br>
-                            <Form.Control type="text" placeholder="Description" value={description} onChange={descriptionChangeHandler} />
-                            <br></br><br></br>
-                            
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Enter Source JSON</Form.Label>
-                                {/* {console.log(data)} */}
-                                <Form.Control as="textarea" rows={6} value={sourceJSON} onChange={sourceJsonTextChangeHandler} />
-                            </Form.Group>
-                            {sourceJsonButton ? <Form.Group controlId="formFile" className="mb-3" onChange={(e) => { sourceJsonFileUploadHandler(e) }}>
-                                <Form.Label></Form.Label>
-                                <Form.Control type="file" />
-                                {error ? error : ""}
-                            </Form.Group> : <Button onClick={sourceJsonButtonHandler}>Upload Source JSON</Button>}
-                            <br></br><br></br>
-
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Enter Target JSON</Form.Label>
-                                <Form.Control as="textarea" rows={6} value={targetJSON} onChange={targetJsonTextChangeHandler} />
-                            </Form.Group>
-                            {targetJsonButton ? <Form.Group controlId="formFile" className="mb-3" onChange={(e) => { targetJsonFileUploadHandler(e) }}>
-                                <Form.Label></Form.Label>
-                                <Form.Control type="file" />
-                                {error ? error : ""}
-                            </Form.Group> : <Button onClick={targetJsonButtonHandler}>Upload Target JSON</Button>}
-                            <br></br><br></br>
-
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Enter Mapping JSON</Form.Label>
-                                <Form.Control as="textarea" rows={6} value={mappingJSON} onChange={mappingJsonTextChangeHandler} />
-                            </Form.Group>
-                            {mappingJsonButton ? <Form.Group controlId="formFile" className="mb-3" onChange={(e) => { mappingJsonFileUploadHandler(e) }}>
-                                <Form.Label></Form.Label>
-                                <Form.Control type="file" />
-                                {error ? error : ""}
-                            </Form.Group> : <Button onClick={mappingJsonButtonHandler}>Upload Mapping JSON</Button>}
-                            <br></br><br></br>
-
-
-                            <Button variant="primary" type="button" onClick={submitHandler}>
-                                Submit
-                            </Button>
-
+                                    <div className={"sourceJson"}>
+                                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                                            {/* {console.log(data)} */}
+                                            <Form.Control as="textarea" rows={5} value={sourceJSON} onChange={sourceJsonTextChangeHandler} />
+                                        </Form.Group>
+                                        {sourceJsonButton ? <Form.Group style={{ marginTop: '10px' }} controlId="formFile" onChange={(e) => { sourceJsonFileUploadHandler(e) }}>
+                                            <Form.Control type="file" />
+                                            {error ? error : null}
+                                        </Form.Group> : <Button variant="light" className={"button"} onClick={sourceJsonButtonHandler}>Upload Source JSON</Button>}
+                                    </div>
+                                    <div className={"targetJson"}>
+                                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                                            <Form.Control as="textarea" rows={5} value={targetJSON} onChange={targetJsonTextChangeHandler} />
+                                        </Form.Group>
+                                        {targetJsonButton ? <Form.Group style={{ marginTop: '10px' }} controlId="formFile" onChange={(e) => { targetJsonFileUploadHandler(e) }}>
+                                            <Form.Control type="file" />
+                                            {error ? error : null}
+                                        </Form.Group> : <Button variant="light" className={"button"} onClick={targetJsonButtonHandler}>Upload Target JSON</Button>}
+                                    </div>
+                                </div>
+                                <div className={"mappingJson"}>
+                                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                                        <Form.Control as="textarea" rows={6} value={mappingJSON} onChange={mappingJsonTextChangeHandler} />
+                                    </Form.Group>
+                                    {mappingJsonButton ? <Form.Group style={{ marginTop: '10px' }} controlId="formFile" onChange={(e) => { mappingJsonFileUploadHandler(e) }}>
+                                        <Form.Control type="file" />
+                                        {error ? error : null}
+                                    </Form.Group> : <Button className={"button"} variant="light" onClick={mappingJsonButtonHandler}>Upload Mapping JSON</Button>}
+                                </div>
+                            <Button className={"button"} variant="light" type="button" onClick={submitHandler}>
+                                        Submit
+                                    </Button>
                         </Form>
+                        <div className="outputCode">
+                                <Form.Group controlId="exampleForm.ControlTextarea1">
+                                    <Form.Control as="textarea" rows={19} value={mappingJSON} onChange={mappingJsonTextChangeHandler} />
+                                </Form.Group>      
+                        </div>
                     </div>
                 </div>
             )}
