@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Profile from "./components/Profile/Profile";
-import GoogleLoginButton from "./components/GoogleLoginButton";
 import CodeGenerator from "./components/CodeGenerator/CodeGenerator2";
 import { useState } from "react";
 import { Home } from "./components/Home";
