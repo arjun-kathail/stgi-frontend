@@ -20,7 +20,7 @@ const Profile = () => {
           Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({ email: "ugoel911@gmail.com" }),
+        body: JSON.stringify({ email: location.state.email }),
       });
       const data = await res.json();
       setProjects(data);

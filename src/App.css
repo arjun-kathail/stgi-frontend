@@ -2,6 +2,7 @@ body {
   background-color: aliceblue;
   font-family: Roboto Mono;
   overflow-x: hidden;
+  margin-top: 15vh;
 }
 
 .App {
