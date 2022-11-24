@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { gapi } from "gapi-script";
+import { Button } from "react-bootstrap";
 
 function GoogleLoginButton(props) {
   const clientId =
@@ -37,6 +38,12 @@ function GoogleLoginButton(props) {
         />
       ) : (
         <GoogleLogin
+            render={renderProps => (
+                <Button variant = "dark" style={{ display: "flex", fontFamily: 'Roboto Mono', cursor:"pointer", background:"white", color:"black", height:"40px" , border:"1px solid black"}} onClick={renderProps.onClick} >
+                <img style={{ height: "22px", marginRight:"10px" }} src={require('../images/google-logo.png')} alt="not found" />
+                <p>Login</p>
+                </Button>
+          )}
           clientId={clientId}
           buttonText="Log In"
           onSuccess={onSuccess}
