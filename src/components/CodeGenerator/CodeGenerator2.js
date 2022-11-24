@@ -34,19 +34,25 @@ const CodeGenerator = (props) => {
 
     const [data, setData] = useState({})
 
+    const [code, setCode] = useState({})
+
     useEffect(() => {
-        const code = fetch(`https://81ae-14-139-234-179.ngrok.io/users/${data[0]["id"]}`, {
+        getCode();
+    }, [data]);
+
+    const getCode = async () => {
+        const c = data[0] ? await fetch(`https://81ae-14-139-234-179.ngrok.io/users/id`, {
             method: `POST`,
             headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
-            body: JSON.stringify(data.id),
-          });
-        //   const d = await code.json();
-        //   setData(d)
-          console.log(code);
-    }, [data]);
+            body: JSON.stringify({"id":data[0].id}),
+        }) : "";
+        const res = await c.json();
+        console.log(res);
+        setCode(res);
+    }
 
     const nameChangeHandler = (e) => {
         setName(e.target.value)
@@ -160,19 +166,19 @@ const CodeGenerator = (props) => {
 
 
     let res = {};
-    
+
     const submitHandler = async () => {
         // console.log(isJsonString(files))
         let sourceJsonData = isJsonString(sourceJSON) ? JSON.parse(sourceJSON) : {};
         let targetJsonData = isJsonString(targetJSON) ? JSON.parse(targetJSON) : {};
         let mappingJsonData = isJsonString(mappingJSON) ? JSON.parse(mappingJSON) : {};
 
-        res["name"]=name;
-        res["email"]=props.user.email;
-        res["description"]=description;
-        res["input"]=sourceJsonData;
-        res["output"]=targetJsonData;
-        res["mapping"]=mappingJsonData;
+        res["name"] = name;
+        res["email"] = props.user.email;
+        res["description"] = description;
+        res["input"] = sourceJsonData;
+        res["output"] = targetJsonData;
+        res["mapping"] = mappingJsonData;
 
         console.log(JSON.stringify(res));
         // axios.post('https://81ae-14-139-234-179.ngrok.io/generate', { "Accept": "application/json", "Content-Type": "application/json" }, JSON.stringify(res))
@@ -186,18 +192,18 @@ const CodeGenerator = (props) => {
         const result = await fetch(`https://81ae-14-139-234-179.ngrok.io/generate`, {
             method: `POST`,
             headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify(res),
-          });
-          const d = await result.json();
-          setData(d)
-          console.log(d);
+        });
+        const d = await result.json();
+        setData(d)
+        console.log(d);
 
-            // console.log(result);
+        // console.log(result);
     }
-    
+
 
     return (
         <>
@@ -205,53 +211,47 @@ const CodeGenerator = (props) => {
                 <div className={"box"}>
                     <div className={"formStyle"}>
                         <Form className={"formItems"}>
+                            <Form.Control type="text" placeholder="Specification Name" value={name} onChange={nameChangeHandler} />
+                            <div className={"InputOutput"}>
 
-                            <Form.Control type="text" placeholder="Name" value={name} onChange={nameChangeHandler} />
-                            <br></br><br></br>
-
-                            <Form.Control type="text" placeholder="Description" value={description} onChange={descriptionChangeHandler} />
-                            <br></br><br></br>
-                            
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Enter Source JSON</Form.Label>
-                                {/* {console.log(data)} */}
-                                <Form.Control as="textarea" rows={6} value={sourceJSON} onChange={sourceJsonTextChangeHandler} />
-                            </Form.Group>
-                            {sourceJsonButton ? <Form.Group controlId="formFile" className="mb-3" onChange={(e) => { sourceJsonFileUploadHandler(e) }}>
-                                <Form.Label></Form.Label>
-                                <Form.Control type="file" />
-                                {/* {error ? error : ""} */}
-                            </Form.Group> : <Button variant="success" onClick={sourceJsonButtonHandler}>Upload Source JSON</Button>}
-                            <br></br><br></br>
-
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Enter Target JSON</Form.Label>
-                                <Form.Control as="textarea" rows={6} value={targetJSON} onChange={targetJsonTextChangeHandler} />
-                            </Form.Group>
-                            {targetJsonButton ? <Form.Group controlId="formFile" className="mb-3" onChange={(e) => { targetJsonFileUploadHandler(e) }}>
-                                <Form.Label></Form.Label>
-                                <Form.Control type="file" />
-                                {error ? error : ""}
-                            </Form.Group> : <Button variant="success" onClick={targetJsonButtonHandler}>Upload Target JSON</Button>}
-                            <br></br><br></br>
-
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Enter Mapping JSON</Form.Label>
-                                <Form.Control as="textarea" rows={6} value={mappingJSON} onChange={mappingJsonTextChangeHandler} />
-                            </Form.Group>
-                            {mappingJsonButton ? <Form.Group controlId="formFile" className="mb-3" onChange={(e) => { mappingJsonFileUploadHandler(e) }}>
-                                <Form.Label></Form.Label>
-                                <Form.Control type="file" />
-                                {error ? error : ""}
-                            </Form.Group> : <Button variant="success" onClick={mappingJsonButtonHandler}>Upload Mapping JSON</Button>}
-                            <br></br><br></br>
-
-
-                            <Button variant="primary" style={{width:"20%"}} type="button" onClick={submitHandler}>
+                                <div className={"sourceJson"}>
+                                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                                        {/* {console.log(data)} */}
+                                        <Form.Control as="textarea" rows={5} value={sourceJSON} onChange={sourceJsonTextChangeHandler} />
+                                    </Form.Group>
+                                    {sourceJsonButton ? <Form.Group style={{ marginTop: '10px' }} controlId="formFile" onChange={(e) => { sourceJsonFileUploadHandler(e) }}>
+                                        <Form.Control type="file" />
+                                        {error ? error : null}
+                                    </Form.Group> : <Button variant="light" className={"button"} onClick={sourceJsonButtonHandler}>Upload Source JSON</Button>}
+                                </div>
+                                <div className={"targetJson"}>
+                                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                                        <Form.Control as="textarea" rows={5} value={targetJSON} onChange={targetJsonTextChangeHandler} />
+                                    </Form.Group>
+                                    {targetJsonButton ? <Form.Group style={{ marginTop: '10px' }} controlId="formFile" onChange={(e) => { targetJsonFileUploadHandler(e) }}>
+                                        <Form.Control type="file" />
+                                        {error ? error : null}
+                                    </Form.Group> : <Button variant="light" className={"button"} onClick={targetJsonButtonHandler}>Upload Target JSON</Button>}
+                                </div>
+                            </div>
+                            <div className={"mappingJson"}>
+                                <Form.Group controlId="exampleForm.ControlTextarea1">
+                                    <Form.Control as="textarea" rows={6} value={mappingJSON} onChange={mappingJsonTextChangeHandler} />
+                                </Form.Group>
+                                {mappingJsonButton ? <Form.Group style={{ marginTop: '10px' }} controlId="formFile" onChange={(e) => { mappingJsonFileUploadHandler(e) }}>
+                                    <Form.Control type="file" />
+                                    {error ? error : null}
+                                </Form.Group> : <Button className={"button"} variant="light" onClick={mappingJsonButtonHandler}>Upload Mapping JSON</Button>}
+                            </div>
+                            <Button className={"button"} variant="light" type="button" onClick={submitHandler}>
                                 Submit
                             </Button>
-
                         </Form>
+                        <div className="outputCode">
+                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                                <Form.Control as="textarea" rows={19} value={code.code} />
+                            </Form.Group>
+                        </div>
                     </div>
                 </div>
             )}

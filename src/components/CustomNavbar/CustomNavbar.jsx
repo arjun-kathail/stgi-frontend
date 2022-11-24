@@ -3,6 +3,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import classes from "./CustomNavbar.module.css";
 import GoogleLoginButton from "../GoogleLoginButton";
+import Logo from "../../images/logo.svg";
 
 const CustomNavbar = (props) => {
   const navigate = useNavigate();
@@ -12,14 +13,14 @@ const CustomNavbar = (props) => {
         className={classes.body}
         collapseOnSelect
         expand="lg"
-        bg="light"
-        variant="light"
+        bg="dark"
+        variant="dark"
       >
         <Container>
           <Navbar.Brand href="/" className={classes.imageContainer}>
             <img
               style={{ height: 35 }}
-              src={require("../../images/logo.jpg")}
+              src={Logo}
               alt="not found"
             />
           </Navbar.Brand>
@@ -50,7 +51,7 @@ const CustomNavbar = (props) => {
               )}
             </Nav>
             <Nav>
-              <Nav.Link className={classes.loginButton}>
+              <Nav.Link>
                 <GoogleLoginButton user={props.user} setUser={props.setUser} />
               </Nav.Link>
             </Nav>
