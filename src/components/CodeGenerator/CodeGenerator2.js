@@ -15,11 +15,9 @@ function isJsonString(str) {
     return true;
 }
 
-const CodeGenerator = () => {
+const CodeGenerator = (props) => {
 
     const [name, setName] = useState("");
-
-    const [email, setEmail] = useState("");
 
     const [description, setDescription] = useState("");
 
@@ -34,16 +32,24 @@ const CodeGenerator = () => {
 
     const [error, setError] = useState("");
 
-    // useEffect(() => {
-    //     fileChangeHandler();
-    // }, [data]);
+    const [data, setData] = useState({})
+
+    useEffect(() => {
+        const code = fetch(`https://81ae-14-139-234-179.ngrok.io/users/${data[0]["id"]}`, {
+            method: `POST`,
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(data.id),
+          });
+        //   const d = await code.json();
+        //   setData(d)
+          console.log(code);
+    }, [data]);
 
     const nameChangeHandler = (e) => {
         setName(e.target.value)
-    }
-
-    const emailChangeHandler = (e) => {
-        setEmail(e.target.value)
     }
 
     const descriptionChangeHandler = (e) => {
@@ -155,27 +161,41 @@ const CodeGenerator = () => {
 
     let res = {};
     
-    const submitHandler = () => {
+    const submitHandler = async () => {
         // console.log(isJsonString(files))
         let sourceJsonData = isJsonString(sourceJSON) ? JSON.parse(sourceJSON) : {};
         let targetJsonData = isJsonString(targetJSON) ? JSON.parse(targetJSON) : {};
         let mappingJsonData = isJsonString(mappingJSON) ? JSON.parse(mappingJSON) : {};
 
         res["name"]=name;
-        res["email"]=email;
+        res["email"]=props.user.email;
         res["description"]=description;
         res["input"]=sourceJsonData;
         res["output"]=targetJsonData;
         res["mapping"]=mappingJsonData;
 
         console.log(JSON.stringify(res));
-        axios.post('https://fc09-14-139-234-179.ngrok.io/generate', { "Accept": "application/json", "Content-Type": "application/json" }, JSON.stringify(res))
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        // axios.post('https://81ae-14-139-234-179.ngrok.io/generate', { "Accept": "application/json", "Content-Type": "application/json" }, JSON.stringify(res))
+        //     .then((result) => {
+        //         console.log(result);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
+
+        const result = await fetch(`https://81ae-14-139-234-179.ngrok.io/generate`, {
+            method: `POST`,
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(res),
+          });
+          const d = await result.json();
+          setData(d)
+          console.log(d);
+
+            // console.log(result);
     }
     
 
@@ -188,8 +208,7 @@ const CodeGenerator = () => {
 
                             <Form.Control type="text" placeholder="Name" value={name} onChange={nameChangeHandler} />
                             <br></br><br></br>
-                            <Form.Control type="text" placeholder="Email" value={email} onChange={emailChangeHandler} />
-                            <br></br><br></br>
+
                             <Form.Control type="text" placeholder="Description" value={description} onChange={descriptionChangeHandler} />
                             <br></br><br></br>
                             
@@ -201,8 +220,8 @@ const CodeGenerator = () => {
                             {sourceJsonButton ? <Form.Group controlId="formFile" className="mb-3" onChange={(e) => { sourceJsonFileUploadHandler(e) }}>
                                 <Form.Label></Form.Label>
                                 <Form.Control type="file" />
-                                {error ? error : ""}
-                            </Form.Group> : <Button onClick={sourceJsonButtonHandler}>Upload Source JSON</Button>}
+                                {/* {error ? error : ""} */}
+                            </Form.Group> : <Button variant="success" onClick={sourceJsonButtonHandler}>Upload Source JSON</Button>}
                             <br></br><br></br>
 
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -213,7 +232,7 @@ const CodeGenerator = () => {
                                 <Form.Label></Form.Label>
                                 <Form.Control type="file" />
                                 {error ? error : ""}
-                            </Form.Group> : <Button onClick={targetJsonButtonHandler}>Upload Target JSON</Button>}
+                            </Form.Group> : <Button variant="success" onClick={targetJsonButtonHandler}>Upload Target JSON</Button>}
                             <br></br><br></br>
 
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -224,11 +243,11 @@ const CodeGenerator = () => {
                                 <Form.Label></Form.Label>
                                 <Form.Control type="file" />
                                 {error ? error : ""}
-                            </Form.Group> : <Button onClick={mappingJsonButtonHandler}>Upload Mapping JSON</Button>}
+                            </Form.Group> : <Button variant="success" onClick={mappingJsonButtonHandler}>Upload Mapping JSON</Button>}
                             <br></br><br></br>
 
 
-                            <Button variant="primary" type="button" onClick={submitHandler}>
+                            <Button variant="primary" style={{width:"20%"}} type="button" onClick={submitHandler}>
                                 Submit
                             </Button>
 
