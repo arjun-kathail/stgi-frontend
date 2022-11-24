@@ -1,53 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { gapi } from 'gapi-script';
+import React, { useEffect } from "react";
+import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { gapi } from "gapi-script";
+import { Button } from "react-bootstrap";
 
-function GoogleLoginButton() {
-    const [ profile, setProfile ] = useState([]);
-    const clientId = '747114995861-mq5jik2m36mp50b1dcb5oi5ilam1nvrp.apps.googleusercontent.com';
-    useEffect(() => {
-        const initClient = () => {
-            gapi.client.init({
-                clientId: clientId,
-                scope: 'https://www.googleapis.com/auth/userinfo.profile'
-            });
-        };
-        gapi.load('client:auth2', initClient);
-    });
-
-    const onSuccess = (res) => {
-        setProfile(res.profileObj);
-        console.log(res.profileObj);
+function GoogleLoginButton(props) {
+  const clientId =
+    "747114995861-mq5jik2m36mp50b1dcb5oi5ilam1nvrp.apps.googleusercontent.com";
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "https://www.googleapis.com/auth/userinfo.profile",
+      });
     };
+    gapi.load("client:auth2", initClient);
+  });
 
-    const onFailure = (err) => {
-        console.log('failed', err);
-    };
+  const onSuccess = (res) => {
+    props.setUser(res.profileObj);
+  };
 
-    const logOut = () => {
-        setProfile(null);
-    };
+  const onFailure = (err) => {
+    console.log("failed", err);
+  };
 
-    return (
-        <div>
-            {profile ? (
-                <div>
-                    <h3>User Logged in</h3>
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
-                    <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} />
-                </div>
-            ) : (
-                <GoogleLogin
-                    clientId={clientId}
-                    buttonText="Log In"
-                    onSuccess={onSuccess}
-                    onFailure={onFailure}
-                    cookiePolicy={'single_host_origin'}
-                    isSignedIn={true}
-                />
-            )}
-        </div>
-    );
+  const logOut = () => {
+    props.setUser(null);
+  };
+
+  return (
+    <div>
+      {props.user ? (
+        <GoogleLogout
+          clientId={clientId}
+          buttonText="Log out"
+          onLogoutSuccess={logOut}
+        />
+      ) : (
+        <GoogleLogin
+            render={renderProps => (
+                <Button variant = "dark" style={{ display: "flex", fontFamily: 'Roboto Mono', cursor:"pointer", background:"white", color:"black", height:"40px" , border:"1px solid black"}} onClick={renderProps.onClick} >
+                <img style={{ height: "22px", marginRight:"10px" }} src={require('../images/google-logo.png')} alt="not found" />
+                <p>Login</p>
+                </Button>
+          )}
+          clientId={clientId}
+          buttonText="Log In"
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+          cookiePolicy={"single_host_origin"}
+          isSignedIn={true}
+        />
+      )}
+    </div>
+  );
 }
 export default GoogleLoginButton;
