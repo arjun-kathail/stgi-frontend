@@ -17,7 +17,6 @@ function GoogleLoginButton(props) {
 
   const onSuccess = (res) => {
     props.setUser(res.profileObj);
-    console.log(res.profileObj);
   };
 
   const onFailure = (err) => {

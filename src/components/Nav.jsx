@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import GoogleLoginButton from "./GoogleLoginButton";
 
-const Nav = () => {
-  const [user, setUser] = useState([]);
+const Nav = (props) => {
   const navigate = useNavigate();
   return (
     <>
@@ -16,7 +15,7 @@ const Nav = () => {
             <Navbar.Brand>Hackathon</Navbar.Brand>
           </Link>
 
-          {user ? (
+          {props.user ? (
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-button-dark-example1"
@@ -25,8 +24,8 @@ const Nav = () => {
                 <img
                   referrerPolicy="no-referrer"
                   src={
-                    user.photoURL
-                      ? user.photoURL
+                    props.user.photoURL
+                      ? props.user.photoURL
                       : "https://img.icons8.com/doodle/48/000000/user.png"
                   }
                   style={{ height: "30px", width: "40px" }}
@@ -37,18 +36,21 @@ const Nav = () => {
 
               <Dropdown.Menu variant="dark" className="dropdownMenu">
                 <Dropdown.Item
-                  onClick={() => navigate("/profile", { state: user })}
+                  onClick={() => navigate("/profile", { state: props.user })}
                 >
                   Profile
                 </Dropdown.Item>
                 <Dropdown.Item className="logoutDropdown">
-                  <GoogleLoginButton setUser={setUser} user={user} />
+                  <GoogleLoginButton
+                    setUser={props.setUser}
+                    user={props.user}
+                  />
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
             <>
-              <GoogleLoginButton setUser={setUser} user={user} />
+              <GoogleLoginButton setUser={props.setUser} user={props.user} />
             </>
           )}
         </Container>
