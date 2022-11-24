@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
+import { Circles } from "react-loader-spinner";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Profile.css";
 
@@ -11,33 +12,25 @@ const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    setUser(location.state);
-    setProjects([
-      {
-        projectName: "Project 1",
-        projectId: "1",
-        projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
-      },
-      {
-        projectName: "Project 2",
-        projectId: "2",
-        projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
-      },
-      {
-        projectName: "Project 3",
-        projectId: "3",
-        projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
-      },
-      {
-        projectName: "Project 4",
-        projectId: "4",
-        projectDescription: "Lorem ipsum lorem ipsum this is lorem ipsum",
-      },
-    ]);
+    async function fetchData() {
+      const res = await fetch("https://81ae-14-139-234-179.ngrok.io/users", {
+        method: `POST`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ email: "ugoel911@gmail.com" }),
+      });
+      const data = await res.json();
+      setProjects(data);
+      setUser(location.state);
+    }
+    fetchData();
   }, [location.state]);
   return (
     <>
-      {user && (
+      {user ? (
         <Row>
           <Col xs={12} lg={4}>
             <div className="pf-wrapper shadow">
@@ -65,22 +58,33 @@ const Profile = () => {
           <Col xs={12} lg={8}>
             <div className="pf-container">
               <div className="projects">
-                <Form.Control
-                  type="email"
-                  placeholder="Search"
-                  onChange={(e) => setSearchText(e.target.value)}
-                />
+                {projects.length > 0 ? (
+                  <Form.Control
+                    type="email"
+                    placeholder="Search"
+                    onChange={(e) => setSearchText(e.target.value)}
+                  />
+                ) : (
+                  <div style={{ width: "100%", margin: "auto" }}>
+                    <Circles
+                      height="80"
+                      width="80"
+                      color="rgb(50, 222, 212)"
+                      ariaLabel="circles-loading"
+                      visible={true}
+                    />
+                  </div>
+                )}
                 {projects
                   .filter((project) =>
-                    project.projectName
+                    project.name
                       .toLowerCase()
                       .includes(searchText.toLowerCase())
                   )
                   .map((project) => (
                     <Card className="project">
-                      <Card.Header>{project.projectName}</Card.Header>
+                      <Card.Header>{project.name}</Card.Header>
                       <Card.Body>
-                        <Card.Text>{project.projectDescription}</Card.Text>
                         <Button
                           onClick={() =>
                             navigate("/executor", {
@@ -101,6 +105,16 @@ const Profile = () => {
             </div>
           </Col>
         </Row>
+      ) : (
+        <div style={{ width: "100%", margin: "auto" }}>
+          <Circles
+            height="80"
+            width="80"
+            color="rgb(50, 222, 212)"
+            ariaLabel="circles-loading"
+            visible={true}
+          />
+        </div>
       )}
     </>
   );

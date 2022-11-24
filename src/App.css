@@ -1,6 +1,7 @@
 body {
   background-color: #222a3f;
   font-family: Roboto Mono;
+  overflow-x: hidden;
 }
 
 .App {
