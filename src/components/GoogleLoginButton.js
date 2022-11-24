@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { gapi } from "gapi-script";
 import { Button } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function GoogleLoginButton(props) {
   const clientId =
@@ -17,15 +19,18 @@ function GoogleLoginButton(props) {
   });
 
   const onSuccess = (res) => {
+    toast.success("Authentication successful!");
     props.setUser(res.profileObj);
   };
 
   const onFailure = (err) => {
+    toast.error("Authentication failed!");
     console.log("failed", err);
   };
 
   const logOut = () => {
     props.setUser(null);
+    toast.success("Logout successful!");
   };
 
   return (
@@ -33,16 +38,60 @@ function GoogleLoginButton(props) {
       {props.user ? (
         <GoogleLogout
           clientId={clientId}
-          buttonText="Log out"
+          buttonText="Logout"
           onLogoutSuccess={logOut}
+          render={(renderProps) => (
+            <Button
+              variant="dark"
+              style={{
+                display: "flex",
+                fontFamily: "Roboto Mono",
+                cursor: "pointer",
+                background: "white",
+                color: "black",
+                height: "40px",
+                border: "0",
+              }}
+              onClick={renderProps.onClick}
+            >
+              <img
+                style={{
+                  height: "22px",
+                  margin: "1px 10px 0 0",
+                }}
+                src={require("../images/google-logo.png")}
+                alt="not found"
+              />
+              <p style={{ color: "rgb(60, 60, 60)" }}>Logout</p>
+            </Button>
+          )}
         />
       ) : (
         <GoogleLogin
-            render={renderProps => (
-                <Button variant = "dark" style={{ display: "flex", fontFamily: 'Roboto Mono', cursor:"pointer", background:"white", color:"black", height:"40px" , border:"1px solid black"}} onClick={renderProps.onClick} >
-                <img style={{ height: "22px", marginRight:"10px" }} src={require('../images/google-logo.png')} alt="not found" />
-                <p>Login</p>
-                </Button>
+          render={(renderProps) => (
+            <Button
+              variant="dark"
+              style={{
+                display: "flex",
+                fontFamily: "Roboto Mono",
+                cursor: "pointer",
+                background: "white",
+                color: "black",
+                height: "40px",
+                border: "0",
+              }}
+              onClick={renderProps.onClick}
+            >
+              <img
+                style={{
+                  height: "22px",
+                  margin: "1px 10px 0 0",
+                }}
+                src={require("../images/google-logo.png")}
+                alt="not found"
+              />
+              <p style={{ color: "rgb(60, 60, 60)" }}>Login</p>
+            </Button>
           )}
           clientId={clientId}
           buttonText="Log In"
@@ -52,6 +101,7 @@ function GoogleLoginButton(props) {
           isSignedIn={true}
         />
       )}
+      <ToastContainer />
     </div>
   );
 }
