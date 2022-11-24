@@ -30,8 +30,9 @@ function GoogleLoginButton() {
 
     return (
         <div>
-            {profile ? (
+            {profile.length>0 ? (
                 <div>
+                {console.log(profile)}
                     <h3>User Logged in</h3>
                     <p>Name: {profile.name}</p>
                     <p>Email Address: {profile.email}</p>
