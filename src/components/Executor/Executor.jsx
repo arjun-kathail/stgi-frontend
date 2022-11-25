@@ -50,9 +50,9 @@ const Executor = (props) => {
       toast.info("Select a project to execute!");
       return;
     }
-    // setLoading(true);
+    setLoading(true);
     console.log("Sending");
-    const res = fetch(
+    const res = await fetch(
       "https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/execute",
       {
         method: `POST`,
@@ -63,18 +63,13 @@ const Executor = (props) => {
         },
         body: JSON.stringify({
           id: selectedProject,
-          input: await JSON.parse(sourceJSON),
+          input: JSON.parse(sourceJSON),
         }),
-      }
-    ).then(async (res) => {
-      console.log("hi there");
-      res.json().then((data) => {
-        console.log(data);
-        setLoading(false);
-        setTargetJSON(data);
-        toast.success("Conversion successful!");
-      });
-    });
+      })
+    const data = await res.json();
+    setLoading(false);
+    setTargetJSON(JSON.stringify(data));
+    toast.success("Conversion successful!");
   };
 
   const sourceJsonTextChangeHandler = async (e) => {
@@ -149,8 +144,8 @@ const Executor = (props) => {
           <h3 style={{ color: "black", margin: "25px 0" }}>
             {selectedProject?.length > 0
               ? "Selected mapping: " +
-                projects.filter((project) => project.id === selectedProject)[0]
-                  .name
+              projects.filter((project) => project.id === selectedProject)[0]
+                .name
               : "Select a Project to execute"}
           </h3>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
