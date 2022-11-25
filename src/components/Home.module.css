@@ -13,11 +13,23 @@
 
 .landingBg {
     background-image: url('../images/waves.svg');
-    background-size: auto 95vh;
+    background-size: auto 85vh;
+    height: 85vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
-.introduction {
-    height: 95vh;
+.landingBg::-webkit-scrollbar {
+    display: none;
+}
+
+
+.introduction,
+.features {
+    height: 85vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,6 +40,8 @@
     font-weight: 900;
     font-family: Montserrat;
     font-size: 10rem;
+    margin-top: -5vh;
+    margin-bottom: 2vh;
     background: -webkit-linear-gradient(0deg, #3cdbfa, #b100eb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -39,12 +53,30 @@
     font-size: 2rem;
 }
 
+.featuresTitle {
+    font-weight: 900;
+    font-family: Montserrat;
+    font-size: 6rem;
+    margin-bottom: 2vh;
+    background: -webkit-linear-gradient(0deg, #3cdbfa, #b100eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.featuresBody {
+    color: aliceblue;
+    font-weight: 600;
+    font-size: 2rem;
+    width: 75vw;
+    margin-bottom: 2vh;
+}
+
 .aboutBg {
     background-image: url('../images/waves-inverted.svg');
     background-size: cover;
-    background-size: auto 95vh;
+    background-size: auto 85vh;
 }
 
 .about {
-    height: 95vh;
+    height: 85vh;
 }

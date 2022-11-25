@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Home } from "./components/Home";
 // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Executor from "./components/Executor/Executor";
+import Documentation from "./components/Documentation/Documentation";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Route exact path="/profile" element={<Profile />} />
       <Route exact path="/executor" element={<Executor />} />
       <Route exact path="/generator" element={<CodeGenerator />} />
+      <Route exact path="/documentation" element={<Documentation />} />
     </>
   );
   return (
