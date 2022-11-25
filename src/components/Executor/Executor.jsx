@@ -50,23 +50,31 @@ const Executor = (props) => {
       toast.info("Select a project to execute!");
       return;
     }
-    setLoading(true);
-    const res = await fetch("https://81ae-14-139-234-179.ngrok.io/execute", {
-      method: `POST`,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        id: selectedProject,
-        input: JSON.stringify(sourceJSON),
-      }),
+    // setLoading(true);
+    console.log("Sending");
+    const res = fetch(
+      "https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/execute",
+      {
+        method: `POST`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          id: selectedProject,
+          input: await JSON.parse(sourceJSON),
+        }),
+      }
+    ).then(async (res) => {
+      console.log("hi there");
+      res.json().then((data) => {
+        console.log(data);
+        setLoading(false);
+        setTargetJSON(data);
+        toast.success("Conversion successful!");
+      });
     });
-    setLoading(false);
-    const data = await res.json();
-    setTargetJSON(data);
-    toast.success("Conversion successful!");
   };
 
   const sourceJsonTextChangeHandler = async (e) => {
@@ -79,17 +87,20 @@ const Executor = (props) => {
     }
 
     async function fetchData() {
-      const res = await fetch("https://81ae-14-139-234-179.ngrok.io/users", {
-        method: `POST`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({ email: location.state.email }),
-      });
-      setLoading(false);
+      const res = await fetch(
+        "https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/users",
+        {
+          method: `POST`,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({ email: location.state.email }),
+        }
+      );
       const data = await res.json();
+      setLoading(false);
       setProjects(data);
       setUser(location.state.user);
       setSelectedProject(
