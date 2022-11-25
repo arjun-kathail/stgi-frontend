@@ -202,7 +202,6 @@ const CodeGenerator = (props) => {
 
 
     return (
-            {(
                 <div className={"box"}>
                     <div className={"formStyle"}>
                         <Form className={"formItems"}>
@@ -278,7 +277,6 @@ const CodeGenerator = (props) => {
                         </div>
                     </div>
                 </div>
-            )}
-
     );
+};
 export default CodeGenerator;
