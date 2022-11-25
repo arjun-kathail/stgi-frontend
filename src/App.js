@@ -10,7 +10,8 @@ import CodeGenerator from "./components/CodeGenerator/CodeGenerator2";
 import { useState } from "react";
 import { Home } from "./components/Home";
 // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Executor from "./components/executor/Executor";
+import Executor from "./components/Executor/Executor";
+import Documentation from "./components/Documentation/Documentation";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
     <>
       <Route exact path="/profile" element={<Profile />} />
       <Route exact path="/executor" element={<Executor />} />
-      <Route exact path="/generator" element={<CodeGenerator user={user}/>} />
+      <Route exact path="/documentation" element={<Documentation />} />
+      <Route exact path="/generator" element={<CodeGenerator user={user} />} />
     </>
   );
   return (
