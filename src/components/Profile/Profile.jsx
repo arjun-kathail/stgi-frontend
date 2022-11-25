@@ -13,18 +13,15 @@ const Profile = () => {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(
-        "https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/users",
-        {
-          method: `POST`,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          body: JSON.stringify({ email: location.state.email }),
-        }
-      );
+      const res = await fetch(`${process.env.BACKEND}/users`, {
+        method: `POST`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ email: location.state.email }),
+      });
       const data = await res.json();
       setProjects(data);
       setUser(location.state);

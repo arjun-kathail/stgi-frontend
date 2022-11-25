@@ -52,20 +52,18 @@ const Executor = (props) => {
     }
     setLoading(true);
     console.log("Sending");
-    const res = await fetch(
-      "https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/execute",
-      {
-        method: `POST`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          id: selectedProject,
-          input: JSON.parse(sourceJSON),
-        }),
-      })
+    const res = await fetch(`${process.env.BACKEND}/execute`, {
+      method: `POST`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        id: selectedProject,
+        input: JSON.parse(sourceJSON),
+      }),
+    });
     const data = await res.json();
     setLoading(false);
     setTargetJSON(JSON.stringify(data));
@@ -82,18 +80,15 @@ const Executor = (props) => {
     }
 
     async function fetchData() {
-      const res = await fetch(
-        "https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/users",
-        {
-          method: `POST`,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          body: JSON.stringify({ email: location.state.email }),
-        }
-      );
+      const res = await fetch(`${process.env.BACKEND}/users`, {
+        method: `POST`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ email: location.state.email }),
+      });
       const data = await res.json();
       setLoading(false);
       setProjects(data);
@@ -144,8 +139,8 @@ const Executor = (props) => {
           <h3 style={{ color: "black", margin: "25px 0" }}>
             {selectedProject?.length > 0
               ? "Selected mapping: " +
-              projects.filter((project) => project.id === selectedProject)[0]
-                .name
+                projects.filter((project) => project.id === selectedProject)[0]
+                  .name
               : "Select a Project to execute"}
           </h3>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
