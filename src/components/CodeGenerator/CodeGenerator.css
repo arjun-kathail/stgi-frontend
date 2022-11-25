@@ -1,6 +1,7 @@
 .box{
     display: flex;
     margin: 50px;
+    margin-top: 120px;
 }
 
 .formStyle {

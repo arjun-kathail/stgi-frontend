@@ -20,8 +20,8 @@ function App() {
     <>
       <Route exact path="/profile" element={<Profile />} />
       <Route exact path="/executor" element={<Executor />} />
-      <Route exact path="/generator" element={<CodeGenerator />} />
       <Route exact path="/documentation" element={<Documentation />} />
+      <Route exact path="/generator" element={<CodeGenerator user={user} />} />
     </>
   );
   return (
