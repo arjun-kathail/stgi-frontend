@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./CodeGenerator.css";
-import axios from "axios";
 
 const allowedExtensions = ["json"];
 
@@ -42,13 +41,13 @@ const CodeGenerator = (props) => {
   const getCode = async () => {
     const c = data[0]
       ? await fetch(`${process.env.BACKEND}/users/id`, {
-          method: `POST`,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({ id: data[0].id }),
-        })
+        method: `POST`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ id: data[0].id }),
+      })
       : "";
     const res = await c.json();
     console.log(res);
