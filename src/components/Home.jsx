@@ -2,16 +2,10 @@ import { React, useEffect } from "react";
 import styles from "./Home.module.css";
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 export const Home = () => {
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    AOS.init();
-  }, [])
 
   return (
     <div className={styles.wrapper}>
@@ -28,10 +22,6 @@ export const Home = () => {
           <div className={styles.featuresTitle}>Get Started</div>
           <div className={styles.featuresBody}>Read the documentation</div>
           <Button style={{ marginTop: '2rem', fontSize: "1.5rem" }} variant="outline-dark" onClick={() => navigate("/documentation")}>Documentation</Button>
-        </div>
-      </div>
-      <div className={styles.aboutBg}>
-        <div className={styles.about}>
         </div>
       </div>
     </div>
