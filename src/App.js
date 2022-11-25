@@ -10,7 +10,7 @@ import CodeGenerator from "./components/CodeGenerator/CodeGenerator2";
 import { useState } from "react";
 import { Home } from "./components/Home";
 // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Executor from "./components/Executor/Executor";
+import Executor from "./components/executor/Executor";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 
 function App() {
