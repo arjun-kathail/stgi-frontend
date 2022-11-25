@@ -13,8 +13,8 @@
 
 .landingBg {
     background-image: url('../images/waves.svg');
-    background-size: auto 85vh;
-    height: 85vh;
+    background-size: auto 88vh;
+    height: 88vh;
     overflow-y: scroll;
     -ms-overflow-style: none;
     /* IE and Edge */
@@ -29,7 +29,7 @@
 
 .introduction,
 .features {
-    height: 85vh;
+    height: 88vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,9 +74,9 @@
 .aboutBg {
     background-image: url('../images/waves-inverted.svg');
     background-size: cover;
-    background-size: auto 85vh;
+    background-size: auto 88vh;
 }
 
 .about {
-    height: 85vh;
+    height: 88vh;
 }
