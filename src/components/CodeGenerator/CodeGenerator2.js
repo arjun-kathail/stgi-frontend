@@ -41,7 +41,7 @@ const CodeGenerator = (props) => {
 
   const getCode = async () => {
     const c = data[0]
-      ? await fetch(`${process.env.BACKEND}/users/id`, {
+      ? await fetch(`${process.env.REACt_APP_BACKEND}/users/id`, {
           method: `POST`,
           headers: {
             "Content-Type": "application/json",
@@ -182,7 +182,7 @@ const CodeGenerator = (props) => {
     //         console.log(error);
     //     });
 
-    const result = await fetch(`${process.env.BACKEND}/generate`, {
+    const result = await fetch(`${process.env.REACT_APP_BACKEND}/generate`, {
       method: `POST`,
       headers: {
         "Content-Type": "application/json",

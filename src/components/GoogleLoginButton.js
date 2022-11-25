@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function GoogleLoginButton(props) {
-  const clientId = process.env.CLIENTID;
+  const clientId = process.env.REACT_APP_CLIENTID;
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({

@@ -52,7 +52,7 @@ const Executor = (props) => {
     }
     setLoading(true);
     console.log("Sending");
-    const res = await fetch(`${process.env.BACKEND}/execute`, {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND}/execute`, {
       method: `POST`,
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Executor = (props) => {
     }
 
     async function fetchData() {
-      const res = await fetch(`${process.env.BACKEND}/users`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND}/users`, {
         method: `POST`,
         headers: {
           "Content-Type": "application/json",

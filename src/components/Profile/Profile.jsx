@@ -13,7 +13,7 @@ const Profile = () => {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(`${process.env.BACKEND}/users`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND}/users`, {
         method: `POST`,
         headers: {
           "Content-Type": "application/json",
