@@ -41,7 +41,7 @@ const CodeGenerator = (props) => {
     }, [data]);
 
     const getCode = async () => {
-        const c = data[0] ? await fetch(`https://81ae-14-139-234-179.ngrok.io/users/id`, {
+        const c = data[0] ? await fetch(`https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/users/id`, {
             method: `POST`,
             headers: {
                 "Content-Type": "application/json",
@@ -189,7 +189,7 @@ const CodeGenerator = (props) => {
         //         console.log(error);
         //     });
 
-        const result = await fetch(`https://81ae-14-139-234-179.ngrok.io/generate`, {
+        const result = await fetch(`https://ec5e-2401-4900-4207-8d46-4e76-f9c4-4f56-480a.ngrok.io/generate`, {
             method: `POST`,
             headers: {
                 "Content-Type": "application/json",
@@ -251,6 +251,35 @@ const CodeGenerator = (props) => {
                             <Form.Group controlId="exampleForm.ControlTextarea1">
                                 <Form.Control as="textarea" rows={19} value={code.code} />
                             </Form.Group>
+                            <img
+                            onClick={() => {navigator.clipboard.writeText(code.code)}}
+                            style={{
+                                height: "22px",
+                                marginTop: "10px",
+                                marginLeft: "40vw",
+                                cursor: "pointer"
+                                }}
+                            src={require("../../images/copy.png")}
+                            alt="not found"
+                            />
+                            <img
+                            onClick={() => {
+                                const url = window.URL.createObjectURL(new Blob([code.code]));
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.setAttribute('download', 'code.py'); //or any other extension
+                                document.body.appendChild(link);
+                                link.click();
+                            }}
+                            style={{
+                                height: "35px",
+                                marginTop: "10px",
+                                cursor: "pointer",
+                                marginLeft: "20px"
+                                }}
+                            src={require("../../images/download.png")}
+                            alt="not found"
+                            />
                         </div>
                     </div>
                 </div>
